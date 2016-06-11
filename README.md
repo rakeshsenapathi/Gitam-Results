@@ -1,0 +1,1 @@
+A native android application to display semester results of Gitam University.
