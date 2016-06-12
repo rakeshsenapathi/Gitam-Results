@@ -1,7 +1,6 @@
 package com.senapathi.gitamresults;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,13 +9,19 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import java.net.URL;
+
 import Utils.NetworkUtil;
 import butterknife.Bind;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
     @Bind(R.id.webView)
     protected WebView webView;
+
+    private String UserURL = "";
+
     private String homeURL = "https://eweb.gitam.edu/mobile/Pages/NewGrdcrdInput1.aspx";
 
     @Override
@@ -26,29 +31,19 @@ public class MainActivity extends BaseActivity {
 
         if (NetworkUtil.isOnline(this)) {
             webView.loadUrl(homeURL);
+            findViewById(R.id.share_btn).setVisibility(View.VISIBLE);
             WebSettings webSettings = webView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
             webView.setWebViewClient(new WebViewClient() {
-
-                @Override
-                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                    super.onPageStarted(view, url, favicon);
-                    findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-
-                }
 
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     // do your handling codes here, which url is the requested url
                     // probably you need to open that url rather than redirect:
                     view.loadUrl(url);
+                    UserURL = url;
+                    findViewById(R.id.share_btn).setVisibility(View.GONE);
                     return false; // then it is not handled by default action
                 }
 
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    super.onPageFinished(view, url);
-                    findViewById(R.id.progressBar).setVisibility(View.GONE);
-                }
             });
         } else {
             Toast.makeText(this, "No Internet", Toast.LENGTH_SHORT).show();
@@ -57,6 +52,16 @@ public class MainActivity extends BaseActivity {
             finish();
         }
 
+    }
+
+
+    @OnClick(R.id.share_btn)
+    public void shareAction() {
+        Intent i = new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT, "Results");
+        i.putExtra(android.content.Intent.EXTRA_TEXT,homeURL);
+        startActivity(Intent.createChooser(i, "Share via"));
     }
 
 
@@ -72,6 +77,7 @@ public class MainActivity extends BaseActivity {
                 case KeyEvent.KEYCODE_BACK:
                     if (webView.canGoBack()) {
                         webView.goBack();
+                        findViewById(R.id.share_btn).setVisibility(View.VISIBLE);
                     } else {
                         finish();
                     }

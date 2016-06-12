@@ -1,19 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp">
-
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:indicator="LineScaleParty"
-            app:indicator_color="@color/colorAccent" />
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -27,5 +20,18 @@
                 android:layout_height="match_parent" />
         </android.support.v7.widget.CardView>
 
-    </RelativeLayout>
-</RelativeLayout>
+        <com.melnykov.fab.FloatingActionButton
+            xmlns:fab="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/share_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:padding="20dp"
+            android:visibility="gone"
+            android:src="@android:drawable/ic_menu_share"
+            fab:fab_colorNormal="#c0392b"
+            fab:fab_colorPressed="#e74c3c" />
+
+    </FrameLayout>
+</FrameLayout>
