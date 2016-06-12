@@ -10,6 +10,8 @@ import butterknife.ButterKnife;
  * Created by Senapathi on 12-06-2016.
  */
 public abstract class BaseActivity extends AppCompatActivity {
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +24,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void enableBackButton() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
 
 }
