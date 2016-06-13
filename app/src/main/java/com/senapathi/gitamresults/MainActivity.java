@@ -1,8 +1,9 @@
 package com.senapathi.gitamresults;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -82,7 +83,34 @@ public class MainActivity extends BaseActivity {
                         webView.goBack();
                         findViewById(R.id.share_btn).setVisibility(View.VISIBLE);
                     } else {
-                        finish();
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                        builder.setTitle("Confirm");
+                        builder.setMessage("Are you sure?");
+
+                        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing but close the dialog
+
+                                dialog.dismiss();
+                                finish();
+                            }
+                        });
+
+                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                // Do nothing
+                                dialog.dismiss();
+                            }
+                        });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     }
                     return true;
             }
