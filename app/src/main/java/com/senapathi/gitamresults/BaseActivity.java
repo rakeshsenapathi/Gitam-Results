@@ -3,6 +3,8 @@ package com.senapathi.gitamresults;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import butterknife.ButterKnife;
 
@@ -24,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void enableBackButton() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
 
 
 }
