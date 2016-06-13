@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:cardCornerRadius="3dp"
+        android:id="@+id/version_number"
         app:cardElevation="2dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="#34495e"
-            android:id="@+id/version_number"
             android:text="@string/version_number"/>
         </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView
@@ -23,12 +23,13 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:cardCornerRadius="3dp"
+        android:id="@+id/dev"
         app:cardElevation="2dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/dev"
+            android:textColor="#34495e"
             android:text="@string/dev_name"/>
     </android.support.v7.widget.CardView>
 
@@ -43,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textColor="#34495e"
             android:text="@string/more_details"/>
     </android.support.v7.widget.CardView>
 

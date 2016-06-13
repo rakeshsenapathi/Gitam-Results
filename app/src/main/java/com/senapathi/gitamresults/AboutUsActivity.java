@@ -2,6 +2,7 @@ package com.senapathi.gitamresults;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
@@ -31,5 +32,15 @@ public class AboutUsActivity extends BaseActivity {
                 .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                 //start the activity
                 .start(this);
+    }
+
+    @OnClick(R.id.version_number)
+    public void versionToast(){
+        Toast.makeText(this,getResources().getString(R.string.version_number),Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.dev)
+    public void devToast(){
+        Toast.makeText(this,getResources().getString(R.string.dev_name),Toast.LENGTH_SHORT).show();
     }
 }
