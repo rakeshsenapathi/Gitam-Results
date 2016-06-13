@@ -2,14 +2,12 @@ package com.senapathi.gitamresults;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
-import java.net.URL;
 
 import Utils.NetworkUtil;
 import butterknife.Bind;
@@ -32,7 +30,6 @@ public class MainActivity extends BaseActivity {
         if (NetworkUtil.isOnline(this)) {
             webView.loadUrl(homeURL);
             findViewById(R.id.share_btn).setVisibility(View.VISIBLE);
-            WebSettings webSettings = webView.getSettings();
             webView.setWebViewClient(new WebViewClient() {
 
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -42,6 +39,12 @@ public class MainActivity extends BaseActivity {
                     UserURL = url;
                     findViewById(R.id.share_btn).setVisibility(View.GONE);
                     return false; // then it is not handled by default action
+                }
+
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    // TODO Auto-generated method stub
+                    super.onPageFinished(view, url);
                 }
 
             });
@@ -60,7 +63,7 @@ public class MainActivity extends BaseActivity {
         Intent i = new Intent(android.content.Intent.ACTION_SEND);
         i.setType("text/plain");
         i.putExtra(android.content.Intent.EXTRA_SUBJECT, "Results");
-        i.putExtra(android.content.Intent.EXTRA_TEXT,homeURL);
+        i.putExtra(android.content.Intent.EXTRA_TEXT, homeURL);
         startActivity(Intent.createChooser(i, "Share via"));
     }
 
@@ -87,5 +90,6 @@ public class MainActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 
 }
