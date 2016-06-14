@@ -27,6 +27,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    public void disableBackButton(){
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+    }
 
 
 }

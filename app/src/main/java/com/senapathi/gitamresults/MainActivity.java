@@ -1,8 +1,10 @@
 package com.senapathi.gitamresults;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -26,15 +28,25 @@ public class MainActivity extends BaseActivity {
 
     private String homeURL = "https://eweb.gitam.edu/mobile/Pages/NewGrdcrdInput1.aspx";
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("Gitam Results");
 
         if (NetworkUtil.isOnline(this)) {
-            webView.loadUrl(homeURL);
+
+
             findViewById(R.id.share_btn).setVisibility(View.VISIBLE);
             webView.setWebViewClient(new WebViewClient() {
+
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    if(progressDialog == null)
+                    progressDialog = ProgressDialog.show(MainActivity.this, null, "Loading..");
+                    super.onPageStarted(view, url, favicon);
+                }
 
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     // do your handling codes here, which url is the requested url
@@ -48,10 +60,16 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     // TODO Auto-generated method stub
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                        progressDialog = null;
+                    }
                     super.onPageFinished(view, url);
+
                 }
 
             });
+            webView.loadUrl(homeURL);
         } else {
             Toast.makeText(this, "No Internet", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, NoInternet.class);
