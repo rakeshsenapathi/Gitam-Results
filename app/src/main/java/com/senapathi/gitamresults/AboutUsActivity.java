@@ -23,6 +23,7 @@ public class AboutUsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        enableBackButton();
     }
 
     @OnClick(R.id.more)
