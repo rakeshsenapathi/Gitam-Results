@@ -23,6 +23,7 @@ public class AboutUsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle("About Us");
         disableBackButton();
 
     }
