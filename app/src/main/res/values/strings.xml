@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">GitamResults</string>
     <string name="version_number">Version Number : 16.2.0.1</string>
-    <string name="dev_name">Dev:Rakesh Senapathi</string>
+    <string name="dev_name">About Dev :</string>
     <string name="more_details">More..</string>
 </resources>

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -43,19 +44,24 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                    if(progressDialog == null)
-                    progressDialog = ProgressDialog.show(MainActivity.this, null, "Loading..");
+                    if (progressDialog == null)
+                        progressDialog = ProgressDialog.show(MainActivity.this, null, "Loading..");
                     super.onPageStarted(view, url, favicon);
                 }
 
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     // do your handling codes here, which url is the requested url
                     // probably you need to open that url rather than redirect:
-                    view.loadUrl(url);
                     UserURL = url;
                     findViewById(R.id.share_btn).setVisibility(View.GONE);
-                    return false; // then it is not handled by default action
+                    if (Uri.parse(url).getHost().equals("eweb.gitam.edu")) {
+                        return false;
+                    }
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);
+                    return true;
                 }
+
 
                 @Override
                 public void onPageFinished(WebView view, String url) {
@@ -70,6 +76,8 @@ public class MainActivity extends BaseActivity {
 
             });
             webView.loadUrl(homeURL);
+
+
         } else {
             Toast.makeText(this, "No Internet", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, NoInternet.class);

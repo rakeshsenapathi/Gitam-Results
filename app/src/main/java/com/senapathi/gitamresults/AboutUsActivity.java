@@ -44,7 +44,7 @@ public class AboutUsActivity extends BaseActivity {
 
     @OnClick(R.id.dev)
     public void devToast() {
-        Toast.makeText(this, getResources().getString(R.string.dev_name), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Rakesh Senapathi", Toast.LENGTH_SHORT).show();
     }
 
     @Override
