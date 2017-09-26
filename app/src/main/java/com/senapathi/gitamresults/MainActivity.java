@@ -20,10 +20,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -40,8 +38,6 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.webView)
     protected WebView webView;
     private String homeURL = "https://eweb.gitam.edu/mobile/Pages/NewGrdcrdInput1.aspx";
-
-    private String UserURL = "https://eweb.gitam.edu/mobile/Pages/View_Result_Grid.aspx";
 
     ProgressDialog progressDialog;
 
@@ -107,9 +103,14 @@ public class MainActivity extends BaseActivity {
                                     OutputStream fOut = null;
                                     fOut = new FileOutputStream(file);
 
-                                    Toast.makeText(getApplicationContext(),"ScreenShot Taken", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Saved to Images", Toast.LENGTH_SHORT).show();
 
                                     bm.compress(Bitmap.CompressFormat.PNG, 50, fOut);
+                                    Uri ImageURI = Uri.fromFile(file);
+                                    Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
+                                    shareImageIntent.setType("image/png");
+                                    shareImageIntent.putExtra(Intent.EXTRA_STREAM, ImageURI);
+                                    startActivity(Intent.createChooser(shareImageIntent, "Share image using"));
                                     fOut.flush();
                                     fOut.close();
                                     bm.recycle();
@@ -185,7 +186,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                // Do nothing
                 dialog.dismiss();
             }
         });
