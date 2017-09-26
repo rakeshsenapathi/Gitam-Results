@@ -1,19 +1,18 @@
 package com.senapathi.gitamresults;
 
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Picture;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -31,7 +30,9 @@ import java.util.Random;
 
 import Utils.NetworkUtil;
 import butterknife.Bind;
-import butterknife.OnClick;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class MainActivity extends BaseActivity {
 
@@ -39,11 +40,19 @@ public class MainActivity extends BaseActivity {
     protected WebView webView;
     private String homeURL = "https://eweb.gitam.edu/mobile/Pages/NewGrdcrdInput1.aspx";
 
+    private static final int PERMISSION_REQUEST_CODE = 200;
+
     ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        if (!checkPermission()) {
+            requestPermission();
+        }
+
         getSupportActionBar().setTitle("Gitam Results");
         webView.loadUrl(homeURL);
         final Random rand = new Random();
@@ -78,6 +87,10 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onClick(View v) {
 
+                            if (!checkPermission()) {
+                                Toast.makeText(getApplicationContext(), "Storage Permission Required", Toast.LENGTH_SHORT).show();
+                                requestPermission();
+                            }
                             webView.measure(View.MeasureSpec.makeMeasureSpec(
                                     View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
                                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
@@ -138,6 +151,41 @@ public class MainActivity extends BaseActivity {
 
     }
 
+
+    //Permissions Section
+
+    //Checks for permission
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
+
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    //Requests for permission
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+    }
+
+    //
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+                    boolean writeGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean readGranted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if (writeGranted && readGranted) {
+                        Log.e("info", "Permissions Granted");
+                    } else {
+                        Log.e("info", "Permissions not granted");
+                    }
+                }
+                break;
+        }
+    }
 
     @Override
     protected int getLayoutId() {
